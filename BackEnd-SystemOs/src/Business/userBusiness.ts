@@ -1,3 +1,4 @@
+import { UserDTO } from './../models/userDTO';
 import { InvalidformatEmail } from './../error/UserErrors';
 import { IsNaN, IsNotString, NotInserted } from '../error/UserErrors';
 import { generateId } from '../services/isGenerator';
@@ -10,7 +11,6 @@ export class UserBusiness{
                 const id = generateId();
 
                 if(!nameUser || !email || !cpf) throw new NotInserted()
-                if(isNaN(cpf)) throw new IsNaN
                 if(!nameUser.toString() || !email.toString()) throw new IsNotString
                 if(!email.includes('@')) throw new InvalidformatEmail()
 

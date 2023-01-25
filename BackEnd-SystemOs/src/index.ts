@@ -10,7 +10,6 @@ app.use(cors())
 app.use('/os', osRouter)
 app.use('/user', userRouter)
 
-const validate = new Validate()
-
+    
 app.listen(3003, ()=>{console.log(`SERVER IS RUNNING IN PORT 3003`);
 })

@@ -1,5 +1,3 @@
-import { connection } from './../connection/connection';
-
 import { Users } from "../models/Users";
 import { BaseDatabase } from "./BaseDatabase";
 
@@ -44,8 +42,12 @@ export class UserDatabase extends BaseDatabase {
 
     searchCpf = async (cpf:any)=>{
         
-        const result = UserDatabase.connection.select().from('Users').where({cpf})
-        return result
+        try {
+            const result = UserDatabase.connection.select().from('Users').where({cpf})
+            return result
+        } catch (error:any) { 
+            throw new Error(error.message)
+        }
 
     }
         
