@@ -1,21 +1,23 @@
 import { UserDTO } from './../models/userDTO';
 import { InvalidformatEmail } from './../error/UserErrors';
-import { IsNaN, IsNotString, NotInserted } from '../error/UserErrors';
+import { EmailExist, CpfExist, IsNaN, IsNotString, NotInserted } from '../error/UserErrors';
 import { generateId } from '../services/isGenerator';
 import { UserDatabase } from './../DataBase/userDatabase';
+import { Validate } from '../common/validateCpf';
 
 export class UserBusiness{
     
         createUser = async ({nameUser, email, cpf}:any):Promise <void>=>{
             try {
                 const id = generateId();
+                const validate = new Validate()
 
                 if(!nameUser || !email || !cpf) throw new NotInserted()
                 if(!nameUser.toString() || !email.toString()) throw new IsNotString
                 if(!email.includes('@')) throw new InvalidformatEmail()
-
-
-
+                if((await validate.cpf({cpf:cpf})).length === 1) throw new CpfExist()
+                if((await validate.email({email:email})).length === 1) throw new EmailExist()
+                
 
                 const userDatabase = new UserDatabase()
                 await userDatabase.createUser({id, nameUser, email, cpf})                
@@ -52,5 +54,8 @@ export class UserBusiness{
           return await userDatabase.searchCpf(cpf)
         }
 
-        searchEmail = async ():Promise <void> =>{}
+        searchEmail = async ({email}:any)=>{
+            const userDatabase = new UserDatabase()
+          return await userDatabase.searchEmail(email)
+        }
 }

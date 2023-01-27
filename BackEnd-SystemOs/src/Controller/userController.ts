@@ -8,7 +8,7 @@ export class UserController{
             const { nameUser, email, cpf } = req.body
             const userBusiness = new UserBusiness()
             await userBusiness.createUser({ nameUser, email, cpf})
-            res.status(20).send('Usuario Criado com Sucesso...')
+            res.status(200).send('Usuario Criado com Sucesso...')
         } catch (error:any) {
         res.status(400).send(error.message)
        }
@@ -50,7 +50,17 @@ export class UserController{
        
     }
         
-    searchEmail = async (req:Request, res:Response):Promise <void> =>{}
+    searchEmail = async (req:Request, res:Response)=>{
+        try {
+            const {email} = req.params
+    
+            const userBusiness = new UserBusiness()
+            const result = await userBusiness.searchCpf({email})
+            res.send(result)
+         } catch (error:any) {
+            throw new Error(error.message)
+         }
+    }
 
 }
 

@@ -51,5 +51,12 @@ export class UserDatabase extends BaseDatabase {
 
     }
         
-    searchEmail = async ():Promise <void> =>{}
+    searchEmail = async ({email}:any) =>{
+        try {
+            const result = UserDatabase.connection.select().from('Users').where({email})
+            return result
+        } catch (error:any) { 
+            throw new Error(error.message)
+        }
+    }
 }
