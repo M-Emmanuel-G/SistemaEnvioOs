@@ -1,8 +1,7 @@
-import { log } from 'console';
 import { UserBusiness } from './../Business/userBusiness';
 import { Request, Response } from "express"
 export class UserController{
-    
+     
     createUser = async (req:Request, res:Response):Promise <void>=>{
         try {
             const { nameUser, email, cpf } = req.body
@@ -24,7 +23,18 @@ export class UserController{
         }
     }
 
-    updateUser = async (req:Request, res:Response):Promise <void>=>{}
+    updateUser = async (req:Request, res:Response):Promise <void>=>{
+        try {
+            const {id} = req.params
+            const {nameUser, email} = req.body
+
+            const userBusiness = new UserBusiness()
+            await userBusiness.updateUser({id, nameUser, email})
+            res.status(200).send("Editado com sucesso...")
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    }
 
     deleteUser = async (req:Request, res:Response):Promise <void>=>{
         try {

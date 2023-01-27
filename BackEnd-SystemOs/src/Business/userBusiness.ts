@@ -37,7 +37,21 @@ export class UserBusiness{
             }
         }
 
-        updateUser = async ():Promise <void>=>{}
+        updateUser = async ({id, nameUser, email}:any):Promise <void>=>{
+
+            try {
+
+                if(!id || !nameUser || !email) throw new NotInserted();
+                if(!nameUser.toString() || !email.toString()) throw new IsNotString
+                if(!email.includes('@')) throw new InvalidformatEmail()
+
+                const userDatabase = new UserDatabase()
+                userDatabase.updateUser({id, nameUser, email})
+
+            } catch (error:any) {
+                throw new Error(error.message);
+            }
+        }
 
         deleteUser = async ({id}:any):Promise <void>=>{
             try {
